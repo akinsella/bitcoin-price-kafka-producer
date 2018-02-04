@@ -1,14 +1,14 @@
 package org.helyx.kafka.utils
 
-import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
-import java.util.Locale
+import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 
 import com.fasterxml.jackson.databind.DeserializationFeature.{FAIL_ON_UNKNOWN_PROPERTIES, USE_BIG_DECIMAL_FOR_FLOATS}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.datatype.jsr310.deser.{InstantDeserializer}
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer.ZONED_DATE_TIME
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 
@@ -20,8 +20,8 @@ object JsonUtils {
   mapper.registerModule(new Jdk8Module())
 
   val module = new SimpleModule()
-  //  (DateTimeFormatter.ofPattern(""MMM d, yyyy HH:mm:ss z"")
-  module.addDeserializer(classOf[ZonedDateTime], InstantDeserializer.ZONED_DATE_TIME)
+  module.addDeserializer(classOf[ZonedDateTime], ZONED_DATE_TIME)
+  module.addSerializer(classOf[ZonedDateTime], new ZonedDateTimeSerializer(ISO_ZONED_DATE_TIME))
   mapper.registerModule(module)
 
   mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
