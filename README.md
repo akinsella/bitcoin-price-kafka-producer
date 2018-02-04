@@ -1,4 +1,6 @@
-[![Build Status](https://drone.io/github.com/akinsella/bitcoin-price-kafka-producer/status.png)](https://drone.io/github.com/akinsella/bitcoin-price-kafka-producer/latest)
+[![Build Status](https://travis-ci.org/akinsella/bitcoin-price-kafka-producer)](https://travis-ci.org/akinsella/bitcoin-price-kafka-producer)
+
+== Build status
 
 ### Description
 Program sample using akka and pushing to kafka: Fetch current bitcoin price and store it to kafka.
