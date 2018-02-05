@@ -77,7 +77,7 @@ class BtcPriceFetcherActorTest extends FunSuite with Matchers with BeforeAndAfte
     implicit val executionContext: ExecutionContext = system.dispatcher
     implicit val timeout: Timeout = Timeout(5 seconds)
 
-    val priceFetcherActor = system.actorOf(Props(classOf[BtcPriceFetcherActor], materializer, "http://localhost:8080/v1/bpi/currentprice.json"), "price-fetcher")
+    val priceFetcherActor = system.actorOf(Props(new BtcPriceFetcherActor("http://localhost:8080/v1/bpi/currentprice.json")), "price-fetcher")
 
     val quote = Await.result[Any](priceFetcherActor ? FetchPrice, timeout.duration).asInstanceOf[Quote]
     val expectedQuote = Quote(

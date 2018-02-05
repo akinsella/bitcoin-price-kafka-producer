@@ -16,7 +16,7 @@ object BtcPriceCoordinatorActor {
   case object Start
 }
 
-class BtcPriceCoordinatorActor(system: ActorSystem, priceFetcherActor: ActorRef, kafkaProducerActor:ActorRef) extends Actor with ActorLogging {
+class BtcPriceCoordinatorActor(priceFetcherActor: ActorRef, kafkaProducerActor:ActorRef)(implicit system: ActorSystem) extends Actor with ActorLogging {
 
   override def preStart(): Unit = {
     log.info(s"Pre Start actor: ${self.path.name}")

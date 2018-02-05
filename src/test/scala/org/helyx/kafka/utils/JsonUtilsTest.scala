@@ -1,9 +1,7 @@
 package org.helyx.kafka.utils
 
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
-import java.util.Locale
 
 import org.helyx.kafka.models.{BitcoinPriceIndex, Quote, QuoteTime}
 import org.helyx.kafka.utils.JsonUtils.fromJson

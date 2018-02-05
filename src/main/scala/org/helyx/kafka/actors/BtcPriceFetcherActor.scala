@@ -21,7 +21,7 @@ case class UnexpectedHttpStatusCodeException(code: StatusCode, private val messa
   extends Exception(message, cause)
 
 
-class BtcPriceFetcherActor(implicit materializer: ActorMaterializer, uri: String = "https://api.coindesk.com/v1/bpi/currentprice.json") extends Actor with ActorLogging {
+class BtcPriceFetcherActor(uri: String = "https://api.coindesk.com/v1/bpi/currentprice.json")(implicit materializer: ActorMaterializer) extends Actor with ActorLogging {
 
   import akka.pattern.pipe
   import context.dispatcher

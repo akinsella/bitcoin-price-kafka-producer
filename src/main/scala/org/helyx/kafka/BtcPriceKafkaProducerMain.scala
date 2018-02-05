@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory.getLogger
 
 case class Arguments(topic: String = "", brokers: Seq[String] = Seq())
 
-class BitcoinPriceKafkaProducerMain
+class BtcPriceKafkaProducerMain
 
-object BitcoinPriceKafkaProducerMain extends BitcoinPriceKafkaProducerMain with App {
+object BtcPriceKafkaProducerMain extends BtcPriceKafkaProducerMain with App {
 
-  val logger = getLogger(classOf[BitcoinPriceKafkaProducerMain])
+  val logger = getLogger(classOf[BtcPriceKafkaProducerMain])
 
   val config = ConfigFactory.load()
 
@@ -47,10 +47,10 @@ object BitcoinPriceKafkaProducerMain extends BitcoinPriceKafkaProducerMain with 
     implicit val system: ActorSystem = ActorSystem("bitcoin-price-akka-system")
     implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-    val priceFetcherActor = system.actorOf(Props(classOf[BtcPriceFetcherActor], materializer), "price-fetcher")
-    val kafkaProducerActor = system.actorOf(Props(classOf[BtcPriceKafkaProducerActor], brokers, "BitcoinPriceKafkaProducer", topic), "kafka-producer")
+    val priceFetcherActor = system.actorOf(Props(new BtcPriceFetcherActor()), "price-fetcher")
+    val kafkaProducerActor = system.actorOf(Props(new BtcPriceKafkaProducerActor(brokers, "BitcoinPriceKafkaProducer", topic)), "kafka-producer")
 
-    val coordinatorActor = system.actorOf(Props(classOf[BtcPriceCoordinatorActor], system, priceFetcherActor, kafkaProducerActor), "coordinator")
+    val coordinatorActor = system.actorOf(Props(new BtcPriceCoordinatorActor(priceFetcherActor, kafkaProducerActor)), "coordinator")
 
     coordinatorActor ! Start
   }
