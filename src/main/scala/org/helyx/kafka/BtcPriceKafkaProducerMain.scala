@@ -28,10 +28,8 @@ object BtcPriceKafkaProducerMain extends BtcPriceKafkaProducerMain with App {
     ).text("kafka brokers")
 
     help("help").text("prints this usage text")
-
   }
 
-  // parser.parse returns Option[C]
   parser.parse(args, Arguments()) match {
     case Some(args) =>
       run(args.brokers, args.topic, config)
@@ -44,11 +42,11 @@ object BtcPriceKafkaProducerMain extends BtcPriceKafkaProducerMain with App {
     logger.info(s"Brokers: $brokers")
     logger.info(s"Topic: $topic")
 
-    implicit val system: ActorSystem = ActorSystem("bitcoin-price-akka-system")
+    implicit val system: ActorSystem = ActorSystem("btc-price")
     implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     val priceFetcherActor = system.actorOf(Props(new BtcPriceFetcherActor()), "price-fetcher")
-    val kafkaProducerActor = system.actorOf(Props(new BtcPriceKafkaProducerActor(brokers, "BitcoinPriceKafkaProducer", topic)), "kafka-producer")
+    val kafkaProducerActor = system.actorOf(Props(new BtcPriceKafkaProducerActor(brokers, "BtcPriceKafkaProducer", topic)), "kafka-producer")
 
     val coordinatorActor = system.actorOf(Props(new BtcPriceCoordinatorActor(priceFetcherActor, kafkaProducerActor)), "coordinator")
 
