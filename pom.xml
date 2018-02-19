@@ -4,7 +4,7 @@
 
 	<groupId>org.helyx.kafka</groupId>
 	<artifactId>bitcoin-price-kafka-producer</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Bitcoin Price Kafka Producer</name>

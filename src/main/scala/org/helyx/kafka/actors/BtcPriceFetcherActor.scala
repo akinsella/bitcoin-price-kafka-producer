@@ -1,7 +1,7 @@
 package org.helyx.kafka.actors
 
 import akka.actor.Status.Failure
-import akka.actor.{Actor, ActorLogging, ActorRef, Status}
+import akka.actor.{Actor, ActorLogging, ActorRef}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpMethods.GET
 import akka.http.scaladsl.model.StatusCodes.OK
@@ -53,12 +53,14 @@ class BtcPriceFetcherActor(uri: String = "https://api.coindesk.com/v1/bpi/curren
         log.info(s"Response body deserialized as Quote: $quote")
         log.info(s"Returning Quote to sender ...")
         origin ! quote
+        context become receive
       }
 
     case resp@HttpResponse(code, _, _, _) =>
       log.warning(s"Request failed, response code: $code")
       resp.discardEntityBytes()
       origin ! Failure(UnexpectedHttpStatusCodeException(code))
+      context become receive
   }
 
 }

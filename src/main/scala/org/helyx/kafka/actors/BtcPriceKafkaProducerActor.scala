@@ -48,7 +48,7 @@ class BtcPriceKafkaProducerActor(brokers:Seq[String], clientId:String, topic: St
           if (e != null) {
             log.error(s"Failed to send message to kafka on topic '$topic': ${e.getMessage}", e)
           } else {
-            println(s"Successfully sent message to kafka on topic '$topic'")
+            log.info(s"Successfully sent message to kafka on topic '$topic'")
           }
         }
       })
